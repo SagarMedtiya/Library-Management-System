@@ -79,3 +79,124 @@ The system supports:
 -   EmailNotifier example
     
 -   Automatically notifies on checkout and return
+  
+# 🏗️ Design Patterns Used
+
+### 1️⃣ Factory Pattern
+
+`BookFactory` creates different types of books.
+
+### 2️⃣ Strategy Pattern
+
+`FineStrategy` allows dynamic fine calculation rules.
+
+### 3️⃣ Observer Pattern
+
+`LibraryObserver` notifies users about transactions.
+
+* * *
+
+# 🧠 SOLID Principles Applied
+
+### ✅ Single Responsibility
+
+-   `Book` → metadata
+    
+-   `BorrowRecord` → transaction details
+    
+-   `LendingService` → business logic
+    
+
+### ✅ Open/Closed
+
+-   Add new fine strategies without modifying existing code
+    
+
+### ✅ Liskov Substitution
+
+-   `PhysicalBook` extends `Book` properly
+    
+
+### ✅ Interface Segregation
+
+-   FineStrategy and LibraryObserver are small focused interfaces
+    
+
+### ✅ Dependency Inversion
+
+-   `LendingService` depends on `FineStrategy` abstraction
+
+# Class Diagram (UML Representation)
+
+                `+-------------------+
+                |      Book         |
+                |-------------------|
+                | - id              |
+                | - title           |
+                | - author          |
+                | - isbn            |
+                | - available       |
+                |-------------------|
+                | + getType()       |
+                +---------^---------+
+                          |
+                          |
+                +-------------------+
+                |  PhysicalBook     |
+                |-------------------|
+                | - availableCopies |
+                |-------------------|
+                | + borrowCopy()    |
+                | + returnCopy()    |
+                +-------------------+
+
+                +-------------------+
+                |     Patron        |
+                |-------------------|
+                | - borrowedBooks   |
+                | - borrowHistory   |
+                |-------------------|
+                | + borrowBook()    |
+                | + returnBook()    |
+                +-------------------+
+
+                +-------------------+
+                |   BorrowRecord    |
+                |-------------------|
+                | - book            |
+                | - patron          |
+                | - borrowDate      |
+                | - dueDate         |
+                | - returnDate      |
+                +-------------------+
+
+                +-------------------+
+                |  LendingService   |
+                |-------------------|
+                | - fineStrategy    |
+                | - observers       |
+                |-------------------|
+                | + checkout()      |
+                | + returnBook()    |
+                +---------+---------+
+                          |
+                          v
+                +-------------------+
+                |  FineStrategy     |
+                |-------------------|
+                | + calculateFine() |
+                +---------^---------+
+                          |
+                +-------------------+
+                | StandardFineStrategy |
+                +-------------------+
+
+                +-------------------+
+                | LibraryObserver   |
+                |-------------------|
+                | + update()        |
+                +---------^---------+
+                          |
+                +-------------------+
+                |   EmailNotifier   |
+                +-------------------+`
